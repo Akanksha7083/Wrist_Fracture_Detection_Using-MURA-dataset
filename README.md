@@ -1,14 +1,12 @@
-Automated Wrist Fracture Detection
+**Automated Wrist Fracture Detection**
 
-
-
-Overview
+**Overview**
 
 This project leverages deep learning to automatically detect wrist fractures from X-ray images using the MURA v1.1 dataset (Stanford ML Group). Wrist fractures are among the most common orthopedic injuries, and their diagnosis through X-rays often depends on radiologist expertise. Our system applies DenseNet121 with transfer learning to classify X-rays as Fractured or Normal, aiming to assist radiologists with faster and more accurate diagnosis.
 
 A Streamlit web app is included for real-time deployment, allowing users to upload wrist X-rays and receive instant predictions.
 
-Objectives
+**Objectives**
 
 Automate fracture detection from wrist X-rays.
 
@@ -20,7 +18,7 @@ Provide an interactive Streamlit-based web app for usability.
 
 Enable scalability for detecting fractures in other body parts in future.
 
- Dataset
+** Dataset**
 
 Source: MURA v1.1 (Stanford ML Group)
 
@@ -32,7 +30,7 @@ train_labeled_studies.csv and valid_labeled_studies.csv
 
 Expanded into image-level dataset (~8,000 wrist images).
 
-Methodology
+**Methodology**
 
 Preprocessing
 
@@ -42,7 +40,7 @@ Normalization & augmentation (flip, rotation, brightness, contrast)
 
 Conversion to TFRecords for efficient training
 
-Model
+**Model**
 
 Base: DenseNet121 (pretrained on ImageNet)
 
@@ -66,7 +64,7 @@ Accuracy, AUC, Precision, Recall, F1-score
 
 Confusion matrix, Precision-Recall Curve
 
-Results
+**Results**
 
 Validation Accuracy: ~89%
 
@@ -78,7 +76,7 @@ Confusion Matrix: Clear distinction between fractured and non-fractured images
 
 The model consistently achieved ~89% validation accuracy, showing its potential as an assistive diagnostic tool for radiologists.
 
- Deployment
+** Deployment**
 
 Streamlit Web App (app.py)
 
@@ -86,7 +84,7 @@ Upload an X-ray → Model predicts fracture status in real time
 
 Hosted locally via ngrok for easy demo
 
-Tools & Frameworks
+**Tools & Frameworks**
 
 Python, TensorFlow/Keras, NumPy, Pandas, Scikit-learn
 
@@ -96,7 +94,7 @@ Google Colab + Drive (training & storage)
 
 Streamlit + ngrok (deployment)
 
-Future Scope
+**Future Scope**
 
 Extend to detect other fractures (elbow, shoulder, etc.).
 
@@ -106,7 +104,7 @@ Develop mobile-friendly and hospital-ready deployment.
 
 Role-based access (Doctor/Admin).
 
-References
+**References**
 
 Huang et al., Densely Connected Convolutional Networks (DenseNet), 2017
 
