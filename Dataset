@@ -1,0 +1,76 @@
+Dataset Preparation
+
+This project uses the MURA v1.1 dataset released by the Stanford ML Group. It contains over 40,000 musculoskeletal X-ray images across 7 study types: elbow, finger, forearm, hand, humerus, shoulder, and wrist.
+Since our focus is wrist fracture detection, we only extracted the wrist subset from the dataset.
+
+Dataset Access
+
+MURA can be downloaded from: https://stanfordmlgroup.github.io/competitions/mura/?utm_source=chatgpt.com
+
+My dataset is stored on Google Drive for training in Google Colab:
+https://drive.google.com/drive/folders/11pYC5W_bpntGuPTPkN14GOgDrlxg8J9b?usp=drive_link
+
+Steps for Using the Dataset
+
+1. Mount Google Drive in Colab
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+2. Load Train & Validation CSVs
+The dataset provides CSV files with study paths and labels (0 = Normal, 1 = Fracture).
+import pandas as pd
+
+train_df = pd.read_csv('/content/drive/MyDrive/MURA-v1.1/train_labeled_studies.csv', header=None)
+valid_df = pd.read_csv('/content/drive/MyDrive/MURA-v1.1/valid_labeled_studies.csv', header=None)
+
+train_df.columns = ['study_path', 'label']
+valid_df.columns = ['study_path', 'label']
+
+3. Filter Only Wrist Studies
+We only keep wrist X-rays using a string filter:
+
+train_df = train_df[train_df['study_path'].str.contains('wrist', case=False)]
+valid_df = valid_df[valid_df['study_path'].str.contains('wrist', case=False)]
+
+
+4. Expand Study Paths to Image-Level Paths
+Each study folder contains multiple X-ray images. To train at the image level, we expand the paths:
+
+import os, glob
+
+def expand_study_paths(df):
+    images, labels, study_paths = [], [], []
+    for _, row in df.iterrows():
+        folder = os.path.join('/content/drive/MyDrive', row['study_path'])
+        paths = glob.glob(os.path.join(folder, '*.png'))
+        for p in paths:
+            images.append(p)
+            labels.append(int(row['label']))
+            study_paths.append(row['study_path'])
+    return pd.DataFrame({
+        'image_path': images,
+        'study_path': study_paths,
+        'label': labels
+    })
+
+train_expanded = expand_study_paths(train_df)
+valid_expanded = expand_study_paths(valid_df)
+
+
+Dataset Summary
+
+Total MURA images (all studies): ~40,561
+
+Total Wrist Images used: ~8,000
+
+Train / Validation split: As provided by MURA (train_labeled_studies.csv, valid_labeled_studies.csv)
+
+Classes:
+
+0 → Normal
+
+1 → Fracture
+
+
+
